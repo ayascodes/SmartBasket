@@ -1,0 +1,158 @@
+import '../models/product.dart';
+
+const kCurrency = 'DA';
+
+const List<Product> kProducts = [
+  Product(
+    id: 'prd_pril',
+    name: 'Pril Original',
+    brand: 'Pril',
+    category: 'Household',
+    price: 220,
+    unit: '750 ml bottle',
+    hue: 205,
+    variants: ProductVariants(
+      type: 'Scent',
+      detected: 1,
+      options: [
+        VariantOption(value: 'Lemon', delta: 0),
+        VariantOption(value: 'Original', delta: 0),
+        VariantOption(value: 'Aloe Vera', delta: 15),
+      ],
+    ),
+  ),
+  Product(
+    id: 'prd_javel',
+    name: 'Javel Eau de Javel',
+    brand: 'Brel',
+    category: 'Household',
+    price: 95,
+    unit: '1 L bottle',
+    hue: 150,
+    variants: ProductVariants(
+      type: 'Size',
+      detected: 0,
+      options: [
+        VariantOption(value: '1 L', delta: 0),
+        VariantOption(value: '2 L', delta: 70),
+        VariantOption(value: '5 L', delta: 220),
+      ],
+    ),
+  ),
+  Product(
+    id: 'prd_venus',
+    name: 'Venus Shampoo 2en1',
+    brand: 'Venus',
+    category: 'Personal Care',
+    price: 380,
+    unit: '400 ml bottle',
+    hue: 280,
+    variants: ProductVariants(
+      type: 'Hair type',
+      detected: 2,
+      options: [
+        VariantOption(value: 'Normal', delta: 0),
+        VariantOption(value: 'Dry', delta: 0),
+        VariantOption(value: 'Anti-dandruff', delta: 40),
+      ],
+    ),
+  ),
+  Product(
+    id: 'prd_couscous',
+    name: 'Couscous Mama Moyen',
+    brand: 'Mama',
+    category: 'Pantry',
+    price: 160,
+    unit: '1 kg box',
+    hue: 35,
+    variants: ProductVariants(
+      type: 'Weight',
+      detected: 1,
+      options: [
+        VariantOption(value: '500 g', delta: -70),
+        VariantOption(value: '1 kg', delta: 0),
+        VariantOption(value: '5 kg', delta: 560),
+      ],
+    ),
+  ),
+  Product(
+    id: 'prd_water',
+    name: 'Sidi Ali Eau Minérale',
+    brand: 'Sidi Ali',
+    category: 'Beverages',
+    price: 45,
+    unit: '1.5 L bottle',
+    hue: 195,
+  ),
+  Product(
+    id: 'prd_soda',
+    name: 'Selecto Soda',
+    brand: 'Hamoud Boualem',
+    category: 'Beverages',
+    price: 60,
+    unit: '1 L bottle',
+    hue: 22,
+  ),
+  Product(
+    id: 'prd_yogurt',
+    name: 'Yaourt Nature',
+    brand: 'Soummam',
+    category: 'Dairy',
+    price: 35,
+    unit: 'single cup',
+    hue: 210,
+    variants: ProductVariants(
+      type: 'Pack',
+      detected: 0,
+      options: [
+        VariantOption(value: 'Single', delta: 0),
+        VariantOption(value: 'Pack of 4', delta: 105),
+      ],
+    ),
+  ),
+  Product(
+    id: 'prd_oil',
+    name: 'Huile Tournesol Fleurial',
+    brand: 'Cevital',
+    category: 'Pantry',
+    price: 320,
+    unit: '1 L bottle',
+    hue: 55,
+    variants: ProductVariants(
+      type: 'Size',
+      detected: 0,
+      options: [
+        VariantOption(value: '1 L', delta: 0),
+        VariantOption(value: '2 L', delta: 290),
+        VariantOption(value: '5 L', delta: 1180),
+      ],
+    ),
+  ),
+  Product(
+    id: 'prd_cheese',
+    name: 'La Vache qui rit 24p',
+    brand: 'Bel',
+    category: 'Dairy',
+    price: 290,
+    unit: '24 portions',
+    hue: 12,
+  ),
+  Product(
+    id: 'prd_biscuit',
+    name: 'Bimo Today Biscuits',
+    brand: 'Bimo',
+    category: 'Snacks',
+    price: 70,
+    unit: '56 g pack',
+    hue: 30,
+    variants: ProductVariants(
+      type: 'Flavor',
+      detected: 0,
+      options: [
+        VariantOption(value: 'Chocolate', delta: 0),
+        VariantOption(value: 'Vanilla', delta: 0),
+        VariantOption(value: 'Hazelnut', delta: 10),
+      ],
+    ),
+  ),
+];
