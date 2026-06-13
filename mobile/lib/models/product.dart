@@ -63,14 +63,14 @@ class Product {
   Color get tileBorderColor =>
       HSLColor.fromAHSL(1, hue.toDouble(), 0.45, 0.74).toColor();
 
-  factory Product.fromServer(String label) {
+  factory Product.fromServer(String label, {int price = 0}) {
     final hue = label.codeUnits.fold<int>(0, (a, b) => (a * 31 + b) % 360);
     return Product(
       id: label,
       name: label,
       brand: '',
       category: 'Scanned',
-      price: 0,
+      price: price,
       unit: 'item',
       hue: hue,
     );

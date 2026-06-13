@@ -146,6 +146,7 @@ class _LaneScreenState extends State<LaneScreen> with TickerProviderStateMixin {
   Uint8List? _serverFrame;
   String?    _lastLockedLabel;
   String?    _wsError;
+  final Map<String, int> _priceCache = {};
 
   // ── Detection popup ───────────────────────────────────────────────────────
   _DetectionEvent?        _detectionEvent;
@@ -428,10 +429,10 @@ class _LaneScreenState extends State<LaneScreen> with TickerProviderStateMixin {
       if (imgData != null) {
         setState(() => _serverFrame = base64Decode(imgData as String));
       }
-      final raw = (data['session_receipt'] as Map?)?.cast<String, dynamic>() ?? {};
-      _syncReceiptFromServer(raw);
       final products = (data['products'] as Map?)?.cast<String, dynamic>() ?? {};
       _updateStageFromProducts(products);
+      final raw = (data['session_receipt'] as Map?)?.cast<String, dynamic>() ?? {};
+      _syncReceiptFromServer(raw);
     } catch (_) {}
   }
 
@@ -451,16 +452,22 @@ class _LaneScreenState extends State<LaneScreen> with TickerProviderStateMixin {
         if (_userEditedPids.contains(label)) continue;
         final idx = _receipt.indexWhere((l) => l.pid == label);
         if (idx >= 0) {
-          if (serverQty > _receipt[idx].qty) {
-            _receipt[idx] = _receipt[idx].copyWith(qty: serverQty);
+          final cached = _priceCache[label] ?? 0;
+          final needsQty  = serverQty > _receipt[idx].qty;
+          final needsUnit = _receipt[idx].unit == 0 && cached > 0;
+          if (needsQty || needsUnit) {
+            _receipt[idx] = _receipt[idx].copyWith(
+              qty:  needsQty  ? serverQty : null,
+              unit: needsUnit ? cached    : null,
+            );
           }
         } else {
           _receipt.add(ReceiptLine(
             key:     label,
             pid:     label,
-            product: Product.fromServer(label),
+            product: Product.fromServer(label, price: _priceCache[label] ?? 0),
             variant: null,
-            unit:    0,
+            unit:    _priceCache[label] ?? 0,
             qty:     serverQty,
           ));
         }
@@ -480,6 +487,8 @@ class _LaneScreenState extends State<LaneScreen> with TickerProviderStateMixin {
       final locked = info['locked'] == true;
       final name   = info['name'] as String? ?? '?';
       final sim    = ((info['sim'] as num?) ?? 0.0).toDouble();
+      final price  = ((info['price'] as num?) ?? 0).toInt();
+      if (locked && name != '?' && price > 0) _priceCache[name] = price;
 
       _trackFirstSeen.putIfAbsent(trackId, () => now);
 
@@ -492,7 +501,7 @@ class _LaneScreenState extends State<LaneScreen> with TickerProviderStateMixin {
         if (name != _lastLockedLabel) {
           _lastLockedLabel = name;
           setState(() {
-            _product = Product.fromServer(name);
+            _product = Product.fromServer(name, price: _priceCache[name] ?? price);
             _scan    = _ScanState.recognized;
             _conf    = sim * 100;
             _added   = true;
